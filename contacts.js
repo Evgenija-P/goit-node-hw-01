@@ -27,10 +27,9 @@ async function removeContact(id) {
   const idFind = contacts.findIndex((contact) => contact.id === id);
 
   if (idFind !== -1) {
-    return null;
+    const newContacts = contacts.filter((_, index) => index !== idFind);
+    await fs.writeFile(contactsPath, JSON.stringify(newContacts));
   }
-  const newContacts = contacts.filter((_, index) => index !== idFind);
-  await fs.writeFile(contactsPath, JSON.stringify(newContacts));
   return contacts[idFind];
 }
 

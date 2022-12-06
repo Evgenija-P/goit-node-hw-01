@@ -1,36 +1,31 @@
 const contacts = require("./contacts");
-// const { v4 } = require("uuid");
-const argv = require("yargs").argv;
-
-const updateContactData = {
-  name: "Eva Norton",
-  email: "Eva@mail.com",
-  phone: "(123) 45-67-890",
-};
+const yargs = require("yargs");
+// const argv = require("yargs").argv;
+const { hideBin } = require("yargs/helpers");
 
 async function invokeAction({ action, id, name, email, phone }) {
   switch (action) {
     case "list":
       const contactsList = await contacts.listContacts();
-      console.log(contactsList);
+      console.table(contactsList);
       break;
 
     case "get":
       const contact = await contacts.getContactById(id);
-      if (!contact) {
-        throw new Error("Sorry, this contact not found");
-      }
-      console.log(contact);
+      // if (!contact) {
+      //   throw new Error("Sorry, this contact not found");
+      // }
+      console.table(contact);
       break;
 
     case "add":
       const contactsAdd = await contacts.addContact({ name, email, phone });
-      console.log(contactsAdd);
+      console.table(contactsAdd);
       break;
 
     case "remove":
       const contactRemove = await contacts.removeContact(id);
-      console.log(contactRemove);
+      console.table(contactRemove);
       break;
 
     case "update":
@@ -39,10 +34,10 @@ async function invokeAction({ action, id, name, email, phone }) {
         email,
         phone,
       });
-      if (!contactUpdate) {
-        throw new Error("Sorry, this contact not found");
-      }
-      console.log(contactUpdate);
+      // if (!contactUpdate) {
+      //   throw new Error("Sorry, this contact not found");
+      // }
+      console.table(contactUpdate);
       break;
 
     default:
@@ -57,10 +52,10 @@ async function invokeAction({ action, id, name, email, phone }) {
 //   phone: "(123) 45-67-89",
 // });
 
-invokeAction({
-  action: "remove",
-  id: "m4cUz-dsa",
-});
+// invokeAction({
+//   action: "remove",
+//   id: "m4cUz-dsa",
+// });
 
 // invokeAction({
 //   action: "update",
@@ -69,3 +64,9 @@ invokeAction({
 //   email: "Eva@mail.com",
 //   phone: "(123) 45-67-890",
 // });
+
+const action = hideBin(process.argv);
+const { argv } = yargs(action);
+// console.log(argv);
+
+invokeAction(argv);
