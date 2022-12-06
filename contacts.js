@@ -3,12 +3,18 @@ const path = require("path");
 const { v4 } = require("uuid");
 
 const contactsPath = path.join(__dirname, "/db/contacts.json");
-const findId = "9";
+const findId = "68f44145-4eb8-486a-a52f-91dc397cb57a";
 
 const newContact = {
   name: "Eva Norton",
   email: "Eva@mail.com",
   phone: "(123) 45-67-89",
+};
+
+const updateContactData = {
+  name: "Eva Norton",
+  email: "Eva@mail.com",
+  phone: "(123) 45-67-890",
 };
 
 // TODO: задокументировать каждую функцию
@@ -34,8 +40,16 @@ async function getContactById(contactId) {
     .catch((e) => console.log(e.message));
 }
 
-async function removeContact(contactId) {
-  // ...твой код
+function removeContact(contactId) {
+  fs.readFile(contactsPath)
+    .then((data) => {
+      const contacts = JSON.parse(data);
+      const idFind = contacts.findIndex((contact) => contact.id === contactId);
+      const [contacrResult] = contacts.splice(idFind, 1);
+      fs.writeFile(contactsPath, JSON.stringify(contacts));
+      return contacrResult;
+    })
+    .catch((e) => console.log(e.message));
 }
 
 async function addContact(contactNew) {
@@ -50,6 +64,19 @@ async function addContact(contactNew) {
     .catch((e) => console.log(e.message));
 }
 
+function updateContact(id, updateData) {
+  fs.readFile(contactsPath)
+    .then((data) => {
+      const contacts = JSON.parse(data);
+      const idFind = contacts.findIndex((contact) => contact.id === id);
+      contacts[idFind] = { id, ...updateData };
+      fs.writeFile(contactsPath, JSON.stringify(contacts));
+      console.log(contacts[idFind]);
+      return contacts[idFind];
+    })
+    .catch((e) => console.log(e.message));
+}
+
 module.exports = {
   listContacts,
   addContact,
@@ -59,5 +86,5 @@ module.exports = {
 
 // listContacts();
 // getContactById(findId);
-// addContact(newContact);
-// removeContact(contactId);
+addContact(newContact);
+// addContact("./db/contacts.json", ["eva", "eva@gmail.com", `123456789`]);
