@@ -12,7 +12,7 @@ const newContact = {
 };
 
 // TODO: задокументировать каждую функцию
-function listContacts() {
+async function listContacts() {
   fs.readFile(contactsPath)
     .then((data) => {
       const contacts = JSON.parse(data);
@@ -22,7 +22,7 @@ function listContacts() {
     .catch((e) => console.log(e.message));
 }
 
-function getContactById(contactId) {
+async function getContactById(contactId) {
   fs.readFile(contactsPath)
     .then((data) => {
       const contactFind = JSON.parse(data).find(
@@ -34,11 +34,11 @@ function getContactById(contactId) {
     .catch((e) => console.log(e.message));
 }
 
-function removeContact(contactId) {
+async function removeContact(contactId) {
   // ...твой код
 }
 
-function addContact(contactNew) {
+async function addContact(contactNew) {
   fs.readFile(contactsPath)
     .then((data) => {
       const contacts = JSON.parse(data);
@@ -52,9 +52,12 @@ function addContact(contactNew) {
 
 module.exports = {
   listContacts,
+  addContact,
+  getContactById,
+  removeContact,
 };
 
 // listContacts();
 // getContactById(findId);
-addContact(newContact);
-// addContact("./db/contacts.json", ["eva", "eva@gmail.com", `123456789`]);
+// addContact(newContact);
+// removeContact(contactId);
