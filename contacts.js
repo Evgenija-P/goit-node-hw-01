@@ -40,7 +40,7 @@ async function getContactById(contactId) {
     .catch((e) => console.log(e.message));
 }
 
-function removeContact(contactId) {
+async function removeContact(contactId) {
   fs.readFile(contactsPath)
     .then((data) => {
       const contacts = JSON.parse(data);
@@ -86,5 +86,5 @@ module.exports = {
 
 // listContacts();
 // getContactById(findId);
-addContact(newContact);
-// addContact("./db/contacts.json", ["eva", "eva@gmail.com", `123456789`]);
+// addContact(newContact);
+// updateContact(findId, updateContactData);
