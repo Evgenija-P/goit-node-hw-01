@@ -21,3 +21,7 @@
 
 Помилка
 https://monosnap.com/file/yh9MLAQEJPhpkjs7UcjjNpF3hthDXq
+
+P.S. при використанні commander все чудово відпрацювало, посилання на скрін https://monosnap.com/file/NnhCthAom35zdGy2Q1yVOQR9QcvrH0
+
+Яксь магія :)

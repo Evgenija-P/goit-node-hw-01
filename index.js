@@ -1,7 +1,17 @@
 const contacts = require("./contacts");
-const yargs = require("yargs");
-// const argv = require("yargs").argv;
-const { hideBin } = require("yargs/helpers");
+
+const { Command } = require("commander");
+const program = new Command();
+program
+  .option("-a, --action <type>", "choose action")
+  .option("-i, --id <type>", "user id")
+  .option("-n, --name <type>", "user name")
+  .option("-e, --email <type>", "user email")
+  .option("-p, --phone <type>", "user phone");
+
+program.parse(process.argv);
+
+const argv = program.opts();
 
 async function invokeAction({ action, id, name, email, phone }) {
   switch (action) {
@@ -12,9 +22,6 @@ async function invokeAction({ action, id, name, email, phone }) {
 
     case "get":
       const contact = await contacts.getContactById(id);
-      // if (!contact) {
-      //   throw new Error("Sorry, this contact not found");
-      // }
       console.table(contact);
       break;
 
@@ -34,9 +41,7 @@ async function invokeAction({ action, id, name, email, phone }) {
         email,
         phone,
       });
-      // if (!contactUpdate) {
-      //   throw new Error("Sorry, this contact not found");
-      // }
+
       console.table(contactUpdate);
       break;
 
@@ -44,29 +49,5 @@ async function invokeAction({ action, id, name, email, phone }) {
       console.warn("\x1B[31m Unknown action type!");
   }
 }
-
-// invokeAction({
-//   action: "add",
-//   name: "Eva Norton",
-//   email: "Eva@mail.com",
-//   phone: "(123) 45-67-89",
-// });
-
-// invokeAction({
-//   action: "remove",
-//   id: "m4cUz-dsa",
-// });
-
-// invokeAction({
-//   action: "update",
-//   id: "m4cUz-dsa",
-//   name: "Eva Norton",
-//   email: "Eva@mail.com",
-//   phone: "(123) 45-67-890",
-// });
-
-const action = hideBin(process.argv);
-const { argv } = yargs(action);
-// console.log(argv);
 
 invokeAction(argv);
